@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"  # n8n默认端口
+    environment:
+      - N8N_HOST=0.0.0.0  # 允许从任何IP访问
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - N8N_USER_MANAGEMENT_DISABLED=false
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin  # 设置管理员用户名
+      - N8N_BASIC_AUTH_PASSWORD=Wanjiasuwan123  # 设置管理员密码，请修改为安全密码
+      - N8N_ENCRYPTION_KEY=your_encryption_key_here  # 设置加密密钥，请修改为随机字符串
+      - WEBHOOK_URL=http://23.95.222.124:5678/  # 替换为你的服务器IP
+      - GENERIC_TIMEZONE=Asia/Shanghai  # 设置时区
+      - N8N_LOG_LEVEL=info
+      - N8N_DIAGNOSTICS_ENABLED=false
+      - N8N_PAYLOAD_SIZE_MAX=16
+      - N8N_EDITOR_BASE_URL=http://23.95.222.124:5678/  # 替换为你的服务器IP
+      - N8N_SECURE_COOKIE=false  # 禁用安全cookie，允许HTTP访问
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false  # 禁用文件权限检查
+      - N8N_DISABLE_PRODUCTION_MAIN_PROCESS=false  # 确保主进程正常运行
+      - N8N_RUNNERS_ENABLED=true  # 启用任务运行器，避免将来版本兼容性问题
+    volumes:
+      - n8n_data:/home/node/.n8n  # 持久化数据
+      - ./n8n-uploads:/home/node/.n8n/uploads  # 上传文件目录
+    networks:
+      - n8n_network
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: n8n_postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=n8n
+      - POSTGRES_USER=n8n
+      - POSTGRES_PASSWORD=n8n_password  # 请修改为安全密码
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - n8n_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: n8n_redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - n8n_network
+
+volumes:
+  n8n_data:
+  postgres_data:
+  redis_data:
+
+networks:
+  n8n_network:
+    driver: bridge 
