@@ -9,6 +9,8 @@ services:
       - "5678:5678"  # n8n默认端口
     environment:
       - N8N_HOST=0.0.0.0  # 允许从任何IP访问
+      - HTTP_PROXY=http://192.168.11.73:7890 
+      - HTTPS_PROXY=http://192.168.11.73:7890
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
       - N8N_USER_MANAGEMENT_DISABLED=false
@@ -16,12 +18,12 @@ services:
       - N8N_BASIC_AUTH_USER=admin  # 设置管理员用户名
       - N8N_BASIC_AUTH_PASSWORD=Wanjiasuwan123  # 设置管理员密码，请修改为安全密码
       - N8N_ENCRYPTION_KEY=your_encryption_key_here  # 设置加密密钥，请修改为随机字符串
-      - WEBHOOK_URL=http://23.95.222.124:5678/  # 替换为你的服务器IP
+      - WEBHOOK_URL=http://116.205.183.191:5678/  # 替换为你的服务器IP
       - GENERIC_TIMEZONE=Asia/Shanghai  # 设置时区
       - N8N_LOG_LEVEL=info
       - N8N_DIAGNOSTICS_ENABLED=false
       - N8N_PAYLOAD_SIZE_MAX=16
-      - N8N_EDITOR_BASE_URL=http://23.95.222.124:5678/  # 替换为你的服务器IP
+      - N8N_EDITOR_BASE_URL=http://116.205.183.191:5678/  # 替换为你的服务器IP
       - N8N_SECURE_COOKIE=false  # 禁用安全cookie，允许HTTP访问
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false  # 禁用文件权限检查
       - N8N_DISABLE_PRODUCTION_MAIN_PROCESS=false  # 确保主进程正常运行
