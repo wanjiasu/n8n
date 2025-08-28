@@ -28,6 +28,8 @@ services:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false  # 禁用文件权限检查
       - N8N_DISABLE_PRODUCTION_MAIN_PROCESS=false  # 确保主进程正常运行
       - N8N_RUNNERS_ENABLED=true  # 启用任务运行器，避免将来版本兼容性问题
+      - N8N_CONCURRENCY_PRODUCTION_LIMIT=5  # 设置生产环境并发执行上限为5
+      - N8N_RUNNERS_MAX_CONCURRENCY=5  # 设置任务运行器并发上限为5
     volumes:
       - n8n_data:/home/node/.n8n  # 持久化数据
       - ./n8n-uploads:/home/node/.n8n/uploads  # 上传文件目录
